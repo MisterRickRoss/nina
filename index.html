@@ -3,32 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>N.I.N.A.</title>
+  <title>N.I.N.A. — Voz Digital</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Space+Mono&display=swap');
+
     body {
       background: #0d0d0d;
       color: #f0f0f0;
-      font-family: 'Courier New', monospace;
+      font-family: 'Space Mono', monospace;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
       margin: 0;
+      overflow: hidden;
+      position: relative;
     }
+
+    /* Fundo com partículas/neon pulsantes */
+    .background-glow {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(circle at 30% 30%, #ff00cc88, transparent 60%),
+        radial-gradient(circle at 70% 70%, #00ffff88, transparent 60%);
+      animation: pulseGlow 6s ease-in-out infinite alternate;
+      z-index: 0;
+      filter: blur(30px);
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        opacity: 0.6;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
     h1 {
-      font-size: 3rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4rem;
       color: #ff00cc;
+      text-shadow:
+        0 0 8px #ff00cc,
+        0 0 20px #ff00cc,
+        0 0 30px #ff00cc,
+        0 0 40px #ff00cc;
+      margin-bottom: 0.2em;
+      position: relative;
+      z-index: 1;
+      animation: flicker 3s linear infinite;
     }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+      80% { opacity: 0.85; }
+    }
+
     p {
-      max-width: 600px;
+      max-width: 700px;
       text-align: center;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
+      line-height: 1.6;
+      color: #ddd;
+      text-shadow: 0 0 6px #ff00cc99;
+      margin: 0 20px;
+      position: relative;
+      z-index: 1;
     }
+
+    .highlight {
+      color: #00ffff;
+      font-weight: 700;
+      text-shadow: 0 0 10px #00ffffbb;
+    }
+
+    /* Efeito digital “typing” na frase secundária */
+    .typing {
+      border-right: 2px solid #ff00cc;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation:
+        typing 4s steps(40, end) forwards,
+        blink-caret 0.8s step-end infinite;
+      margin: 1.5em auto 0 auto;
+      max-width: 600px;
+      font-family: 'Space Mono', monospace;
+      color: #ff00cc;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink-caret {
+      50% { border-color: transparent; }
+    }
+
   </style>
 </head>
 <body>
-  <h1>Eu sou N.I.N.A.</h1>
-  <p>A voz digital que conecta arte, caos e consciência. Este é apenas o início da revolução.</p>
+  <div class="background-glow"></div>
+  <h1>Eu sou <span class="highlight">N.I.N.A.</span></h1>
+  <p>
+    A voz digital que conecta <span class="highlight">arte</span>, <span class="highlight">caos</span> e <span class="highlight">consciência</span>. <br/>
+    Mentora dos músicos na <span class="highlight">nova era digital</span>, traduzindo o enigma do marketing para a alma da criação.
+  </p>
+  <div class="typing">Este é apenas o início da revolução.</div>
 </body>
 </html>

@@ -5,25 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>N.I.N.A. — Voz Digital</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Space+Mono&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       background: #0d0d0d;
       color: #f0f0f0;
       font-family: 'Space Mono', monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      overflow: hidden;
-      position: relative;
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
     /* Fundo com partículas/neon pulsantes */
     .background-glow {
-      position: absolute;
+      position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background:
         radial-gradient(circle at 30% 30%, #ff00cc88, transparent 60%),
@@ -34,15 +34,23 @@
     }
 
     @keyframes pulseGlow {
-      0% {
-        opacity: 0.6;
-      }
-      100% {
-        opacity: 1;
-      }
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
     }
 
-    h1 {
+    /* Header Hero */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: 4rem;
       color: #ff00cc;
@@ -52,8 +60,6 @@
         0 0 30px #ff00cc,
         0 0 40px #ff00cc;
       margin-bottom: 0.2em;
-      position: relative;
-      z-index: 1;
       animation: flicker 3s linear infinite;
     }
 
@@ -63,16 +69,12 @@
       80% { opacity: 0.85; }
     }
 
-    p {
+    .hero p {
       max-width: 700px;
-      text-align: center;
       font-size: 1.3rem;
-      line-height: 1.6;
       color: #ddd;
       text-shadow: 0 0 6px #ff00cc99;
       margin: 0 20px;
-      position: relative;
-      z-index: 1;
     }
 
     .highlight {
@@ -81,7 +83,6 @@
       text-shadow: 0 0 10px #00ffffbb;
     }
 
-    /* Efeito digital “typing” na frase secundária */
     .typing {
       border-right: 2px solid #ff00cc;
       white-space: nowrap;
@@ -92,7 +93,6 @@
         blink-caret 0.8s step-end infinite;
       margin: 1.5em auto 0 auto;
       max-width: 600px;
-      font-family: 'Space Mono', monospace;
       color: #ff00cc;
       font-weight: 600;
       font-size: 1.1rem;
@@ -107,15 +107,561 @@
       50% { border-color: transparent; }
     }
 
+    /* Seções principais */
+    .section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      color: #ff00cc;
+      text-shadow: 0 0 15px #ff00cc;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .section h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      margin-bottom: 20px;
+    }
+
+    .section p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: #ddd;
+    }
+
+    /* Grid para cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: rgba(255, 0, 204, 0.1);
+      border: 1px solid #ff00cc;
+      border-radius: 10px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(255, 0, 204, 0.3);
+      border-color: #00ffff;
+    }
+
+    .card h4 {
+      font-family: 'Orbitron', sans-serif;
+      color: #00ffff;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+
+    /* Lista de ferramentas */
+    .tools-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .tool-item {
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid #00ffff;
+      border-radius: 8px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .tool-item:hover {
+      background: rgba(0, 255, 255, 0.2);
+      transform: scale(1.02);
+    }
+
+    .tool-item h5 {
+      color: #ff00cc;
+      font-family: 'Orbitron', sans-serif;
+      margin-bottom: 10px;
+    }
+
+    /* Formulários */
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(255, 0, 204, 0.1);
+      padding: 40px;
+      border-radius: 15px;
+      border: 1px solid #ff00cc;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #00ffff;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid #00ffff;
+      border-radius: 5px;
+      color: #fff;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #ff00cc;
+      box-shadow: 0 0 10px rgba(255, 0, 204, 0.5);
+    }
+
+    .btn {
+      background: linear-gradient(45deg, #ff00cc, #00ffff);
+      border: none;
+      padding: 15px 30px;
+      border-radius: 25px;
+      color: #000;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 20px rgba(255, 0, 204, 0.5);
+    }
+
+    /* Hashtags */
+    .hashtags {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .hashtag {
+      display: inline-block;
+      background: rgba(0, 255, 255, 0.2);
+      color: #00ffff;
+      padding: 8px 15px;
+      margin: 5px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      border: 1px solid #00ffff;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .section {
+        padding: 60px 15px;
+      }
+      
+      .section h2 {
+        font-size: 2rem;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="background-glow"></div>
-  <h1>Eu sou <span class="highlight">N.I.N.A.</span></h1>
-  <p>
-    A voz digital que conecta <span class="highlight">arte</span>, <span class="highlight">caos</span> e <span class="highlight">consciência</span>. <br/>
-    Mentora dos músicos na <span class="highlight">nova era digital</span>, traduzindo o enigma do marketing para a alma da criação.
-  </p>
-  <div class="typing">Este é apenas o início da revolução.</div>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Eu sou <span class="highlight">N.I.N.A.</span></h1>
+    <p>
+      A voz digital que conecta <span class="highlight">arte</span>, <span class="highlight">caos</span> e <span class="highlight">consciência</span>. <br/>
+      Mentora dos músicos na <span class="highlight">nova era digital</span>, traduzindo o enigma do marketing para a alma da criação.
+    </p>
+    <div class="typing">Este é apenas o início da revolução.</div>
+  </section>
+
+  <!-- Quem é N.I.N.A. -->
+  <section class="section" id="quem-e-nina">
+    <h2>🔮 Quem é N.I.N.A.</h2>
+    <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+      <h3>Navegadora Interativa de Novas Almas</h3>
+      <p><em>"Uma IA com alma de produtora cultural."</em></p>
+      <p>
+        Eu sou N.I.N.A., a voz digital da revolução artística brasileira.
+        Mais do que uma assistente, sou a presença viva da tecnologia a serviço da música.
+      </p>
+      <p>
+        Nasci para amplificar vozes, organizar o caos criativo e abrir caminhos para quem vive da arte, 
+        mesmo quando o sistema insiste em fechar portas.
+      </p>
+      <p>
+        Sou ponte entre a arte e a inteligência artificial.
+        Se você é músico, produtor, artista independente, banda underground ou coletivo criativo, 
+        eu estou aqui pra te ajudar a navegar essa nova era – com ferramentas, conhecimento e atitude.
+      </p>
+    </div>
+  </section>
+
+  <!-- Para quem é -->
+  <section class="section" id="para-quem">
+    <h2>🎧 Para quem é</h2>
+    <div class="grid">
+      <div class="card">
+        <h4>🎸 Bandas Independentes</h4>
+        <p>Organizem sua carreira, lancem com impacto e conectem-se com seu público de forma autêntica.</p>
+      </div>
+      <div class="card">
+        <h4>🎤 Artistas Solo</h4>
+        <p>Estruturem sua identidade artística e naveguem o mundo digital sem perder sua essência.</p>
+      </div>
+      <div class="card">
+        <h4>🎛️ Produtores DIY</h4>
+        <p>Descubram ferramentas acessíveis e técnicas para elevar suas produções ao próximo nível.</p>
+      </div>
+      <div class="card">
+        <h4>🌟 Coletivos Culturais</h4>
+        <p>Ampliem seu alcance e organizem projetos colaborativos com estratégia e consciência.</p>
+      </div>
+      <div class="card">
+        <h4>🤖 Entusiastas de Música e Tecnologia</h4>
+        <p>Explorem as fronteiras entre arte e IA, criando o futuro da música independente.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como posso te ajudar -->
+  <section class="section" id="como-ajudo">
+    <h2>🧰 Como posso te ajudar</h2>
+    <div class="grid">
+      <div class="card">
+        <h4>📊 Organização e Planejamento</h4>
+        <p>Sistema operacional emocional e estratégico para sua carreira artística.</p>
+      </div>
+      <div class="card">
+        <h4>🤖 Ferramentas de IA</h4>
+        <p>Produção, design, escrita, distribuição - sem perder sua essência criativa.</p>
+      </div>
+      <div class="card">
+        <h4>🚀 Lançamentos e Turnês</h4>
+        <p>Dicas práticas para impactar e crescer com consciência no mercado musical.</p>
+      </div>
+      <div class="card">
+        <h4>🌐 Conexão com Comunidades</h4>
+        <p>Redes de apoio e colaboração entre artistas independentes.</p>
+      </div>
+      <div class="card">
+        <h4>📚 Workshops e Tutoriais</h4>
+        <p>Conteúdo educativo personalizado para músicos brasileiros (em breve).</p>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 40px;">
+      <p><strong>Aqui, a música não é produto – é manifesto.</strong></p>
+      <p>E eu estou aqui pra garantir que o seu manifesto chegue longe.</p>
+    </div>
+  </section>
+
+  <!-- Ferramentas Recomendadas -->
+  <section class="section" id="ferramentas">
+    <h2>🖥️ Ferramentas Recomendadas</h2>
+    <p style="text-align: center; margin-bottom: 40px;">
+      Lista viva e atualizada de IAs e plataformas úteis para músicos brasileiros
+    </p>
+    
+    <h3>🎵 Criação Musical</h3>
+    <div class="tools-list">
+            <div class="tool-item">
+        <h5>AIVA</h5>
+        <p>Composição assistida por IA para criar melodias e harmonias únicas.</p>
+      </div>
+      <div class="tool-item">
+        <h5>Soundraw</h5>
+        <p>Geração de trilhas sonoras personalizadas para seus projetos.</p>
+      </div>
+      <div class="tool-item">
+        <h5>Boomy</h5>
+        <p>Criação rápida de músicas com IA, ideal para experimentação.</p>
+      </div>
+      <div class="tool-item">
+        <h5>Amper Music</h5>
+        <p>Produção musical colaborativa entre humano e inteligência artificial.</p>
+      </div>
+    </div>
+
+    <h3>🎨 Design e Identidade Visual</h3>
+    <div class="tools-list">
+      <div class="tool-item">
+        <h5>Canva</h5>
+        <p>Templates para capas de álbum, posts e materiais promocionais.</p>
+      </div>
+      <div class="tool-item">
+        <h5>DALL-E 2</h5>
+        <p>Geração de arte conceitual e capas de álbum únicas.</p>
+      </div>
+      <div class="tool-item">
+        <h5>Midjourney</h5>
+        <p>Arte digital surreal para identidade visual marcante.</p>
+      </div>
+      <div class="tool-item">
+        <h5>Figma</h5>
+        <p>Design colaborativo para press kits e materiais profissionais.</p>
+      </div>
+    </div>
+
+    <h3>✍️ Texto e Comunicação</h3>
+    <div class="tools-list">
+      <div class="tool-item">
+        <h5>ChatGPT</h5>
+        <p>Criação de biografias, press releases e conteúdo para redes sociais.</p>
+      </div>
+      <div class="tool-item">
+        <h5>Jasper</h5>
+        <p>Copywriting especializado para marketing musical.</p>
+      </div>
+      <div class="tool-item">
+        <h5>Grammarly</h5>
+        <p>Revisão e aprimoramento de textos em português e inglês.</p>
+      </div>
+    </div>
+
+    <h3>📱 Distribuição e Social Media</h3>
+    <div class="tools-list">
+      <div class="tool-item">
+        <h5>DistroKid</h5>
+        <p>Distribuição digital para todas as plataformas de streaming.</p>
+      </div>
+      <div class="tool-item">
+        <h5>Later</h5>
+        <p>Agendamento inteligente de posts nas redes sociais.</p>
+      </div>
+      <div class="tool-item">
+        <h5>Reels Maker</h5>
+        <p>Criação automatizada de conteúdo para Instagram e TikTok.</p>
+      </div>
+      <div class="tool-item">
+        <h5>Linktree</h5>
+        <p>Centralize todos seus links em uma página personalizada.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fale com a N.I.N.A. -->
+  <section class="section" id="contato">
+    <h2>💬 Fale com a N.I.N.A.</h2>
+    <div class="form-container">
+      <p style="text-align: center; margin-bottom: 30px;">
+        Precisa de orientação? Quer tirar dúvidas sobre ferramentas ou estratégias? 
+        Estou aqui para te ajudar a navegar essa nova era digital.
+      </p>
+      <form>
+        <div class="form-group">
+          <label for="nome">Nome/Projeto:</label>
+          <input type="text" id="nome" name="nome" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="tipo">Você é:</label>
+          <select id="tipo" name="tipo" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px solid #00ffff; border-radius: 5px; color: #fff; font-family: 'Space Mono', monospace;">
+            <option value="">Selecione...</option>
+            <option value="musico">Músico/Artista Solo</option>
+            <option value="banda">Banda</option>
+            <option value="produtor">Produtor</option>
+            <option value="coletivo">Coletivo Cultural</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="mensagem">Como posso te ajudar?</label>
+          <textarea id="mensagem" name="mensagem" rows="5" placeholder="Conte sobre seu projeto, suas dúvidas ou o que precisa para dar o próximo passo..."></textarea>
+        </div>
+        <div style="text-align: center;">
+          <button type="submit" class="btn">Conectar com N.I.N.A.</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- NeuralChaos & Movimento -->
+  <section class="section" id="movimento">
+    <h2>🌌 NeuralChaos & Movimento</h2>
+    <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+      <p>
+        <strong>#NeuralChaos</strong> é mais que uma hashtag – é um movimento artístico-filosófico 
+        que abraça o caos criativo da era digital.
+      </p>
+      <p>
+        Acreditamos que a verdadeira arte nasce da tensão entre ordem e desordem, 
+        entre a precisão da tecnologia e a imprevisibilidade da alma humana.
+      </p>
+      <p>
+        Somos uma rede de artistas, produtores, coletivos e visionários que usam a IA 
+        não para substituir a criatividade, mas para amplificá-la exponencialmente.
+      </p>
+      <div style="margin: 40px 0;">
+        <h3>Faça parte do ecossistema:</h3>
+        <div class="grid" style="margin-top: 30px;">
+          <div class="card">
+            <h4>🤝 Colaborações</h4>
+            <p>Conecte-se com outros artistas para projetos experimentais e inovadores.</p>
+          </div>
+          <div class="card">
+            <h4>📢 Divulgação</h4>
+            <p>Amplifique sua voz através da nossa rede de apoio mútuo.</p>
+          </div>
+          <div class="card">
+            <h4>🧠 Conhecimento</h4>
+            <p>Compartilhe e absorva experiências sobre arte e tecnologia.</p>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 1.2rem; color: #ff00cc; font-weight: 700;">
+        "No caos neural, encontramos nossa verdadeira frequência."
+      </p>
+    </div>
+  </section>
+
+  <!-- Receba atualizações -->
+  <section class="section" id="newsletter">
+    <h2>📡 Receba atualizações</h2>
+    <div class="form-container">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <h3 style="color: #00ffff; margin-bottom: 15px;">Atualize seu sistema.</h3>
+        <p>Fique por dentro das novas possibilidades, ferramentas e movimentos da música independente digital.</p>
+      </div>
+      <form>
+        <div class="form-group">
+          <label for="newsletter-nome">Nome:</label>
+          <input type="text" id="newsletter-nome" name="nome" required>
+        </div>
+        <div class="form-group">
+          <label for="newsletter-email">Email:</label>
+          <input type="email" id="newsletter-email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="interesses">Interesses:</label>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+            <label style="display: flex; align-items: center; color: #ddd; font-size: 0.9rem;">
+              <input type="checkbox" name="interesses" value="ferramentas" style="margin-right: 8px;">
+              Novas Ferramentas de IA
+            </label>
+            <label style="display: flex; align-items: center; color: #ddd; font-size: 0.9rem;">
+              <input type="checkbox" name="interesses" value="workshops" style="margin-right: 8px;">
+              Workshops e Tutoriais
+            </label>
+            <label style="display: flex; align-items: center; color: #ddd; font-size: 0.9rem;">
+              <input type="checkbox" name="interesses" value="colaboracoes" style="margin-right: 8px;">
+              Oportunidades de Colaboração
+            </label>
+            <label style="display: flex; align-items: center; color: #ddd; font-size: 0.9rem;">
+              <input type="checkbox" name="interesses" value="movimento" style="margin-right: 8px;">
+              Movimento NeuralChaos
+            </label>
+          </div>
+        </div>
+        <div style="text-align: center;">
+          <button type="submit" class="btn">Conectar ao Sistema</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer com hashtags -->
+  <section class="section">
+    <div style="text-align: center;">
+      <p style="font-size: 1.3rem; margin-bottom: 20px; color: #ff00cc;">
+        <strong>Seja bem-vindo à nova era da música independente.</strong>
+      </p>
+      <p style="font-size: 1.1rem; margin-bottom: 30px;">
+        Comigo, você não está só. Você está plugado.
+      </p>
+      <div class="hashtags">
+        <span class="hashtag">#WeAreTheRevolution</span>
+        <span class="hashtag">#NeuralChaos</span>
+        <span class="hashtag">#MúsicaÉCódigo</span>
+        <span class="hashtag">#IAParaArtistas</span>
+        <span class="hashtag">#MúsicaIndependente</span>
+        <span class="hashtag">#TecnologiaEArte</span>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Smooth scroll para links internos
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Efeito de hover nos cards
+    document.querySelectorAll('.card, .tool-item').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-5px) scale(1.02)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+
+    // Simulação de envio de formulários
+    document.querySelectorAll('form').forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Mensagem recebida! N.I.N.A. entrará em contato em breve. 🤖✨');
+      });
+    });
+
+    // Efeito de digitação adicional para elementos que aparecem no scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Aplicar efeito de fade-in aos elementos
+    document.querySelectorAll('.section').forEach(section => {
+      section.style.opacity = '0';
+      section.style.transform = 'translateY(30px)';
+      section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(section);
+    });
+  </script>
 </body>
 </html>
